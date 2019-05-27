@@ -238,7 +238,7 @@ describe('ColorInput', () => {
       });
     });
     describe(`'placeholder' prop`, () => {
-      const defaultPlaceholder = 'Please choose a color';
+      const defaultPlaceholder = '';
 
       it(`by default should be defined`, async () => {
         const { inputDriver } = createDriver(renderColorInput());
