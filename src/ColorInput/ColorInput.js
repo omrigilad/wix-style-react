@@ -54,7 +54,7 @@ class ColorInput extends React.Component {
   };
 
   static defaultProps = {
-    placeholder: 'Please choose a color',
+    placeholder: '',
     error: false,
     size: 'medium',
     popoverPlacement: 'bottom',
