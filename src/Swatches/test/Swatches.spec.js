@@ -74,10 +74,11 @@ describe('Swatches', () => {
       expect(await driver.isSwatchSelectedAt(0)).toBe(true);
     });
 
-    it('should add tooltip', async () => {
+    it('should add default tooltip', async () => {
       const { driver } = render(<Swatches showClear colors={['#000000']} />);
 
       expect(await driver.hasTooltip()).toBe(true);
+      expect(await driver.getTooltipText()).toBe('No Color');
     });
 
     it('should accept showClearMessage and show in tooltip', async () => {
