@@ -63,7 +63,7 @@ Swatches.propTypes = {
   /** If true shows no color option */
   showClear: bool,
 
-  /** If showClear is true than this message appears on hover */
+  /** optional message to display in tooltip when showClear is true */
   showClearMessage: string,
 };
 
