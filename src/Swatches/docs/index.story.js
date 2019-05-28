@@ -146,6 +146,7 @@ export default {
                   return (
                     <Swatches
                       showClear
+                      showClearMessage='No Color Tooltip'
                       size='medium'
                       selected={this.state.color}
                       onClick={color => this.setState({color})}

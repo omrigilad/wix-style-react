@@ -6,7 +6,15 @@ import Swatch from './Swatch';
 
 /** Color swatches */
 const Swatches = props => {
-  const { colors, onClick, selected, size, dataHook, showClear } = props;
+  const {
+    colors,
+    onClick,
+    selected,
+    size,
+    dataHook,
+    showClear,
+    showClearMessage,
+  } = props;
 
   const hexColors = colors.map(color => resolveColor(color).hex());
   const uniqueColors = Array.from(new Set(hexColors));
@@ -16,6 +24,7 @@ const Swatches = props => {
       {showClear && (
         <Swatch
           color=""
+          tooltipContent={showClearMessage}
           onClick={onClick}
           selected={selected === ''}
           size={size}
@@ -53,12 +62,16 @@ Swatches.propTypes = {
 
   /** If true shows no color option */
   showClear: bool,
+
+  /** If showClear is true than this message appears on hover */
+  showClearMessage: string,
 };
 
 Swatches.defaultProps = {
   colors: [],
   size: 'small',
   selected: '',
+  showClearMessage: 'No Color',
 };
 
 export default Swatches;
