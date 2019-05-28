@@ -73,5 +73,20 @@ describe('Swatches', () => {
 
       expect(await driver.isSwatchSelectedAt(0)).toBe(true);
     });
+
+    it('should add tooltip', async () => {
+      const { driver } = render(<Swatches showClear colors={['#000000']} />);
+
+      expect(await driver.hasTooltip()).toBe(true);
+    });
+
+    it('should accept showClearMessage and show in tooltip', async () => {
+      const message = 'no color selected';
+      const { driver } = render(
+        <Swatches showClear showClearMessage={message} colors={['#000000']} />,
+      );
+
+      expect(await driver.getTooltipText()).toBe(message);
+    });
   });
 });

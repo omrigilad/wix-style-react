@@ -12,6 +12,7 @@ class Swatch extends React.PureComponent {
         appendTo="window"
         upgrade
         size="small"
+        dataHook="color-swatches-swatch-tooltip"
         content={this.props.tooltipContent}
       >
         {children}
