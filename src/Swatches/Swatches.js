@@ -1,5 +1,5 @@
 import React from 'react';
-import { array, func, string, oneOf, bool } from 'prop-types';
+import { array, func, string, oneOf, bool, node } from 'prop-types';
 import resolveColor from 'color';
 import styles from './Swatches.st.css';
 import Swatch from './Swatch';
@@ -64,14 +64,14 @@ Swatches.propTypes = {
   showClear: bool,
 
   /** optional message to display in tooltip when showClear is true */
-  showClearMessage: string,
+  showClearMessage: node,
 };
 
 Swatches.defaultProps = {
   colors: [],
   size: 'small',
   selected: '',
-  showClearMessage: 'No Color',
+  showClearMessage: '',
 };
 
 export default Swatches;

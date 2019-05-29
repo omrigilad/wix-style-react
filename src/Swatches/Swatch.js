@@ -6,17 +6,21 @@ import Tooltip from '../Tooltip';
 class Swatch extends React.PureComponent {
   static propTypes = {};
 
-  addPopover = children => {
-    return (
+  addTooltip = element => {
+    const { tooltipContent } = this.props;
+
+    return tooltipContent ? (
       <Tooltip
         appendTo="window"
         upgrade
         size="small"
         dataHook="color-swatches-swatch-tooltip"
-        content={this.props.tooltipContent}
+        content={tooltipContent}
       >
-        {children}
+        {element}
       </Tooltip>
+    ) : (
+      element
     );
   };
 
@@ -44,7 +48,7 @@ class Swatch extends React.PureComponent {
         style={{ backgroundColor: color }}
       />
     );
-    return color ? button : this.addPopover(button);
+    return color ? button : this.addTooltip(button);
   }
 }
 export default withFocusable(Swatch);
