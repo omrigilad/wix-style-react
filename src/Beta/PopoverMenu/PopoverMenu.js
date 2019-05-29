@@ -8,11 +8,13 @@ import DropdownBase from '../../DropdownBase';
 
 /*
 todo:
-1. support icons
-2. divider
-3. set button and icon openers to spec's design
-4. onClick & onSelect support
-5. popoverMenu icon on top header of storybook - overflow issue - remove from header or fix header - advice with Arijus
+1. support icons - Moshe
+2. divider - Mykolas
+3. set button and icon openers to spec's design - Moshe
+4. align design to spec - Moshe
+6. testing -
+  * - options - unit test - Mykolas
+7. storybook
  */
 /** PopoverMenu */
 class PopoverMenu extends React.PureComponent {
@@ -26,25 +28,33 @@ class PopoverMenu extends React.PureComponent {
     dataHook: 'tempHook',
   };
 
-  _toListItemActions = () => {
-    const { children } = this.props;
+  _onSelect = e => {
+    this.itemsOnClick.find(({ id }) => id === e.id).onClick();
+  };
 
-    return React.Children.map(children, item => {
-      return listItemActionBuilder({
-        title: item.props.text,
-        onClick: e => {
-          item.props.onClick(e.target);
-          this._handleClose();
-        },
-        skin: item.props.skin,
-        disabled: item.props.disabled,
-      });
-    });
+  _buildOptions = () => {
+    const { children } = this.props;
+    const options = React.Children.map(children, (item, idx) => ({
+      id: idx,
+      title: item.props.text,
+      onClick: item.props.onClick,
+      skin: item.props.skin,
+      disabled: item.props.disabled,
+    }));
+
+    this.itemsOnClick = options.map(({ id, onClick }) => ({ id, onClick }));
+
+    return options.map(option => listItemActionBuilder({ ...option }));
   };
 
   render() {
     return (
-      <DropdownBase showArrow options={this._toListItemActions()}>
+      <DropdownBase
+        showArrow
+        options={this._buildOptions()}
+        onSelect={this._onSelect}
+        appendTo={'window'}
+      >
         {({ open, close }) => {
           return (
             <IconButton
