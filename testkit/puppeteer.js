@@ -235,3 +235,9 @@ import { swatchesDriverFactory } from '../src/Swatches/Swatches.uni.driver';
 export const swatchesTestkitFactory = puppeteerUniTestkitFactoryCreator(
   swatchesDriverFactory,
 );
+
+import { PopoverMenuDriverFactory } from '../src/Beta/PopoverMenu/PopoverMenu.uni.driver';
+
+export const PopoverMenuTestkitFactory = puppeteerUniTestkitFactoryCreator(
+  PopoverMenuDriverFactory,
+);
