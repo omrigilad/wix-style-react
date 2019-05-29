@@ -11,11 +11,20 @@ todo:
 1. divider
 2. options => compound component
 3. rounded border - add overflow through stylable
+4. add icon to the list item actions
+5. esc - close the popover
+6. open popup on button click - should focus on the items list & keyboard nav.
+7. trigger element - move outside as a parameter
+8. trigger element - pass also a button like in the spec
+9. storybook - examples & documentation
+10. tests
  */
 
 /** PopoverMenu */
 class PopoverMenu extends React.PureComponent {
   static displayName = 'PopoverMenu';
+
+  firstItemRef = null;
 
   static propTypes = {
     dataHook: PropTypes.string,
@@ -61,8 +70,34 @@ class PopoverMenu extends React.PureComponent {
 
   _renderOption({ option, idx }) {
     const { value, disabled } = option;
-    return <div key={idx}>{value({ disabled })}</div>;
+    const isFirst = idx === 0;
+    debugger;
+    return (
+      <div
+        key={idx}
+        ref={ref => {
+          isFirst && (this.firstItemRef = ref);
+        }}
+      >
+        {value({ disabled })}
+      </div>
+    );
   }
+
+  _handleKeyDown = e => {
+    // console.log(e.key);
+
+    if (e.key === 'Escape') {
+      this._handleClose();
+      return;
+    }
+
+    e.stopPropagation();
+    if (e.key === 'Enter') {
+      // console.log('focus the first item...');
+      this.setState({ focusFirstItem: true });
+    }
+  };
 
   render() {
     const { dataHook, triggerElement, children } = this.props;
@@ -84,6 +119,7 @@ class PopoverMenu extends React.PureComponent {
         flip={false}
         onClick={() => this.setState({ open: true })}
         onClickOutside={this._handleClose}
+        onKeyDown={this._handleKeyDown}
       >
         <Popover.Element>{triggerElement}</Popover.Element>
         <Popover.Content>
