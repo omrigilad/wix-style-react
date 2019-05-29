@@ -38,12 +38,11 @@ class PopoverMenu extends React.PureComponent {
       id: idx,
       title: item.props.text,
       onClick: item.props.onClick,
+      prefixIcon: item.props.prefixIcon,
       skin: item.props.skin,
       disabled: item.props.disabled,
     }));
-
     this.itemsOnClick = options.map(({ id, onClick }) => ({ id, onClick }));
-
     return options.map(option => listItemActionBuilder({ ...option }));
   };
 
@@ -55,7 +54,7 @@ class PopoverMenu extends React.PureComponent {
         onSelect={this._onSelect}
         appendTo={'window'}
       >
-        {({ open, close }) => {
+        {({ open }) => {
           return (
             <IconButton
               priority="secondary"

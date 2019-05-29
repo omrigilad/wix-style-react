@@ -1,17 +1,8 @@
-import { baseUniDriverFactory } from 'wix-ui-test-utils/base-driver';
+import { dropdownBaseDriverFactory } from '../../DropdownBase/DropdownBase.uni.driver';
 
 export const PopoverMenuDriverFactory = base => {
+  const dropdownBaseTestkit = dropdownBaseDriverFactory(base);
   return {
-    ...baseUniDriverFactory(base),
-
-    /** Get the current count */
-    getCountText: async () => base.$('[data-hook="PopoverMenu-count"]').text(),
-
-    /** Click the button */
-    clickButton: async () => base.$('[data-hook="PopoverMenu-button"]').click(),
-
-    /** Get the button's text */
-    getButtonText: async () =>
-      base.$('[data-hook="PopoverMenu-button"]').text(),
+    clickAtChild: option => dropdownBaseTestkit.selectOption(option),
   };
 };

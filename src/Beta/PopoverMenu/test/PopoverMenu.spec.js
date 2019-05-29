@@ -13,28 +13,30 @@ describe('PopoverMenu', () => {
   afterEach(() => {
     cleanup();
   });
+  const renderPopoverMenu = (props = {}) => (
+    <PopoverMenu dataHook="random" {...props} />
+  );
 
-  it('should render', async () => {
-    const { driver } = render(<PopoverMenu />);
+  describe('PopoverMenu.Item', () => {
+    describe('`onClick` prop', () => {
+      it('[when] given should be called on item click', async () => {
+        const onClick = jest.fn();
 
-    expect(await driver.exists()).toBeTruthy();
-    expect(await driver.getButtonText()).toEqual('Click me!');
-  });
+        const { driver } = render(
+          renderPopoverMenu({
+            children: (
+              <PopoverMenu.MenuItem
+                text="dark option"
+                onClick={onClick}
+                skin="dark"
+              />
+            ),
+          }),
+        );
 
-  it('should increment', async () => {
-    const { driver } = render(<PopoverMenu />);
-
-    await driver.clickButton();
-    await driver.clickButton();
-
-    expect(await driver.getCountText()).toEqual(
-      'You clicked this button even number (2) of times',
-    );
-  });
-
-  it('should allow changing the button text', async () => {
-    const { driver } = render(<PopoverMenu buttonText="Press me" />);
-
-    expect(await driver.getButtonText()).toEqual('Press me');
+        await driver.clickAtChild(0);
+        expect(onClick).toHaveBeenCalled();
+      });
+    });
   });
 });
