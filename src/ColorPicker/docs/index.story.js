@@ -17,5 +17,11 @@ export default {
     onChange: ev => ev.hex(),
     onCancel: () => 'Cancelled',
     onConfirm: () => 'Confirmed',
+    predefinedColors: [
+      {
+        value: ['red', 'green', 'yellow', '#fff', 'rgb(0, 0, 0)', 'magenta'],
+        label: "['red', 'green', 'yellow', '#fff', 'rgb(0, 0, 0)', 'magenta']",
+      },
+    ],
   },
 };

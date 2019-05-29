@@ -1,6 +1,6 @@
 import React from 'react';
 import color from 'color';
-import { object, string, func, bool, oneOfType, node } from 'prop-types';
+import { object, string, func, bool, oneOfType, node, array } from 'prop-types';
 
 import WixComponent from '../BaseComponents/WixComponent';
 import ColorPickerHsb from './ColorPickerHsb';
@@ -10,6 +10,7 @@ import ColorPickerConverter from './ColorPickerConverter';
 import ColorPickerActions from './ColorPickerActions';
 
 import css from './ColorPicker.scss';
+import Swatches from '../Swatches/Swatches';
 
 const FALLBACK_COLOR = color('#86c6e5');
 
@@ -47,6 +48,9 @@ export default class ColorPicker extends WixComponent {
 
     /** Children would be rendered above action buttons */
     children: node,
+
+    /** Color string array to show as swatches */
+    predefinedColors: array,
   };
 
   static defaultProps = {
@@ -73,8 +77,11 @@ export default class ColorPicker extends WixComponent {
       showConverter,
       children,
       value,
+      predefinedColors,
+      showClear,
     } = this.props;
     const { current, previous } = this.state;
+    const selectedSwatch = current.alpha() === 0 ? '' : current.hex();
 
     return (
       <div className={css.root}>
@@ -94,9 +101,20 @@ export default class ColorPicker extends WixComponent {
           onChange={this.change}
           onEnter={this.confirm}
         />
+        {predefinedColors && (
+          <div className={css.children}>
+            <Swatches
+              colors={predefinedColors}
+              showClear={showClear}
+              onClick={this.onSwatchClick}
+              selected={selectedSwatch}
+              dataHook="color-picker-swatches"
+            />
+          </div>
+        )}
         {children && <div className={css.children}>{children}</div>}
         <ColorPickerActions
-          disabled={value === ''}
+          disabled={!showClear && value === ''}
           onConfirm={this.confirm}
           onCancel={this.cancel}
         />
@@ -110,6 +128,11 @@ export default class ColorPicker extends WixComponent {
       this.setState({ current: _color });
     }
   }
+
+  onSwatchClick = _color => {
+    const colorObject = _color ? color(_color) : color().alpha(0);
+    this.change(colorObject);
+  };
 
   change(_color) {
     this.setState({ current: _color }, () => {
@@ -133,7 +156,7 @@ function equal(color1, color2) {
 
 function safeColor(input) {
   try {
-    return color(input);
+    return input ? color(input) : color().alpha(0);
   } catch (error) {
     return null;
   }
