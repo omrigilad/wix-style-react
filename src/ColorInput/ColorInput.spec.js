@@ -323,4 +323,53 @@ describe('ColorInput', () => {
       });
     });
   });
+  describe('Swatches', () => {
+    const predefinedColors = ['#FF0000', 'green', 'blue'];
+    it('should render given `predefinedColors`', async () => {
+      const driver = createDriver(
+        renderColorInput({
+          predefinedColors,
+        }),
+      );
+      (await driver.inputDriver()).click();
+      expect(await (await driver.swatchesDriver()).getSwatchCount()).toBe(3);
+    });
+    it('should return selected swatch color', async () => {
+      const onChange = jest.fn();
+      const { inputDriver, swatchesDriver } = createDriver(
+        renderColorInput({ onChange, predefinedColors }),
+      );
+      (await inputDriver()).click();
+      const noColorSwatch = await (await swatchesDriver()).getSwatch(0);
+      await noColorSwatch.click();
+      expect(onChange).toHaveBeenCalledTimes(1);
+      expect(onChange.mock.calls[0][0]).toBe('#FF0000');
+    });
+    describe('showClear', () => {
+      it('should render no color option', async () => {
+        const { inputDriver, swatchesDriver } = createDriver(
+          renderColorInput({
+            predefinedColors,
+            showClear: true,
+          }),
+        );
+        (await inputDriver()).click();
+        expect(await (await swatchesDriver()).getSwatchCount()).toBe(4);
+        expect(await (await swatchesDriver()).isSwatchTransparentAt(0)).toBe(
+          true,
+        );
+      });
+      it('should return empty string when selected', async () => {
+        const onChange = jest.fn();
+        const { inputDriver, swatchesDriver } = createDriver(
+          renderColorInput({ onChange, predefinedColors, showClear: true }),
+        );
+        (await inputDriver()).click();
+        const noColorSwatch = await (await swatchesDriver()).getSwatch(0);
+        await noColorSwatch.click();
+        expect(onChange).toHaveBeenCalledTimes(1);
+        expect(onChange.mock.calls[0][0]).toBe('');
+      });
+    });
+  });
 });

@@ -52,6 +52,13 @@ export default {
     errorMessage: '',
     size: ['small', 'medium', 'large'],
     popoverPlacement: placements,
+    predefinedColors: [
+      {
+        value: ['red', 'green', 'yellow', '#fff', 'rgb(0, 0, 0)'],
+        label: "['red', 'green', 'yellow', '#fff', 'rgb(0, 0, 0)']",
+      },
+    ],
+    showClear: false,
     popoverAppendTo: [
       { label: 'window', value: window },
       { label: 'scrollParent', value: 'scrollParent' },

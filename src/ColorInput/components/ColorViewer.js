@@ -1,24 +1,28 @@
 import React from 'react';
-import Color from 'color';
 
 import Popover from '../../Popover';
 import ColorPicker from '../../ColorPicker';
 import styles from './ColorViewer.st.css';
 
 export class ColorViewer extends React.Component {
+  onChange = _color => {
+    this.props.onChange(_color.alpha() === 0 ? '' : _color.hex());
+  };
+
   render() {
     const {
       value,
       disabled,
       active,
       onClick,
-      onChange,
       onConfirm,
       onCancel,
       size,
       placement,
       appendTo,
       onClickOutside,
+      predefinedColors,
+      showClear,
     } = this.props;
     return (
       <Popover
@@ -48,7 +52,9 @@ export class ColorViewer extends React.Component {
             showConverter={false}
             showInput={false}
             onCancel={onCancel}
-            onChange={hsl => onChange(Color(hsl).hex())}
+            showClear={showClear}
+            predefinedColors={predefinedColors}
+            onChange={this.onChange}
             onConfirm={onConfirm}
             value={value}
           />

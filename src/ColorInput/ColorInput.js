@@ -1,5 +1,5 @@
 import React from 'react';
-import { node, bool, string, func, oneOf } from 'prop-types';
+import { node, bool, string, func, oneOf, array } from 'prop-types';
 
 import { polyfill } from 'react-lifecycles-compat';
 
@@ -41,6 +41,10 @@ class ColorInput extends React.Component {
       'left',
       'left-start',
     ]),
+    /** Color string array to show as swatches */
+    predefinedColors: array,
+    /** Enable no color swatch in color picker */
+    showClear: bool,
     /** colorpicker popover calculation to a dom element */
     popoverAppendTo: oneOf(['window', 'scrollParent', 'viewport', 'parent']),
     /** input value */
@@ -95,7 +99,14 @@ class ColorInput extends React.Component {
 
   _renderSuffix = () => {
     const { value, active } = this.state;
-    const { size, popoverPlacement, popoverAppendTo, disabled } = this.props;
+    const {
+      size,
+      popoverPlacement,
+      popoverAppendTo,
+      disabled,
+      predefinedColors,
+      showClear,
+    } = this.props;
     return (
       <ColorViewer
         value={value}
@@ -109,6 +120,8 @@ class ColorInput extends React.Component {
         onCancel={this.cancel}
         onConfirm={this.confirm}
         onClickOutside={this.confirm}
+        predefinedColors={predefinedColors}
+        showClear={showClear}
       />
     );
   };
