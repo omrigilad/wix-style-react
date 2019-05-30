@@ -23,7 +23,7 @@ export class ColorViewer extends React.Component {
       placement,
       appendTo,
       onClickOutside,
-      predefinedColors,
+      preset,
       showClear,
     } = this.props;
     return (
@@ -55,7 +55,7 @@ export class ColorViewer extends React.Component {
             showInput={false}
             onCancel={onCancel}
             showClear={showClear}
-            predefinedColors={predefinedColors}
+            preset={preset}
             onChange={this.onChange}
             onConfirm={onConfirm}
             value={value}

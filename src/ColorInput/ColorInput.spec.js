@@ -324,11 +324,11 @@ describe('ColorInput', () => {
     });
   });
   describe('Swatches', () => {
-    const predefinedColors = ['#FF0000', 'green', 'blue'];
-    it('should render given `predefinedColors`', async () => {
+    const preset = ['#FF0000', 'green', 'blue'];
+    it('should render given `preset`', async () => {
       const driver = createDriver(
         renderColorInput({
-          predefinedColors,
+          preset,
         }),
       );
       (await driver.inputDriver()).click();
@@ -337,7 +337,7 @@ describe('ColorInput', () => {
     it('should return selected swatch color', async () => {
       const onChange = jest.fn();
       const { inputDriver, getSwatch } = createDriver(
-        renderColorInput({ onChange, predefinedColors }),
+        renderColorInput({ onChange, preset }),
       );
       (await inputDriver()).click();
       const noColorSwatch = await getSwatch(0);
@@ -353,7 +353,7 @@ describe('ColorInput', () => {
           isSwatchTransparentAt,
         } = createDriver(
           renderColorInput({
-            predefinedColors,
+            preset,
             showClear: true,
           }),
         );
@@ -364,7 +364,7 @@ describe('ColorInput', () => {
       it('should return empty string when selected', async () => {
         const onChange = jest.fn();
         const { inputDriver, getSwatch } = createDriver(
-          renderColorInput({ onChange, predefinedColors, showClear: true }),
+          renderColorInput({ onChange, preset, showClear: true }),
         );
         (await inputDriver()).click();
         const noColorSwatch = await getSwatch(0);

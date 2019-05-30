@@ -42,7 +42,7 @@ class ColorInput extends React.Component {
       'left-start',
     ]),
     /** Color string array to show as swatches */
-    predefinedColors: array,
+    preset: array,
     /** Enable no color swatch in color picker */
     showClear: bool,
     /** colorpicker popover calculation to a dom element */
@@ -104,7 +104,7 @@ class ColorInput extends React.Component {
       popoverPlacement,
       popoverAppendTo,
       disabled,
-      predefinedColors,
+      preset,
       showClear,
     } = this.props;
     return (
@@ -120,7 +120,7 @@ class ColorInput extends React.Component {
         onCancel={this.cancel}
         onConfirm={this.confirm}
         onClickOutside={this.confirm}
-        predefinedColors={predefinedColors}
+        preset={preset}
         showClear={showClear}
       />
     );

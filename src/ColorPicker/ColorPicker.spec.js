@@ -152,8 +152,8 @@ describe('ColorPicker', () => {
     });
   }
 
-  describe('predefinedColors', () => {
-    const predefinedColors = ['red', 'green', 'blue'];
+  describe('preset', () => {
+    const preset = ['red', 'green', 'blue'];
     const render = createRendererWithUniDriver(colorPickerUniDriverFactory);
 
     it('should render given colors as swatches', async () => {
@@ -162,9 +162,7 @@ describe('ColorPicker', () => {
       const onConfirm = jest.fn();
       const value = '#00FF00';
       const { driver } = render(
-        <ColorPicker
-          {...{ value, onChange, onCancel, onConfirm, predefinedColors }}
-        />,
+        <ColorPicker {...{ value, onChange, onCancel, onConfirm, preset }} />,
       );
       expect(await (await driver.swatchesDriver()).getSwatchCount()).toBe(3);
     });
@@ -180,14 +178,14 @@ describe('ColorPicker', () => {
             onChange,
             onCancel,
             onConfirm,
-            predefinedColors,
+            preset,
           }}
         />,
       );
       const swatch = await (await driver.swatchesDriver()).getSwatch(0);
       await swatch.click();
       expect(onChange).toHaveBeenCalledTimes(1);
-      expect(onChange).toHaveBeenCalledWith(color(predefinedColors[0]));
+      expect(onChange).toHaveBeenCalledWith(color(preset[0]));
     });
   });
 

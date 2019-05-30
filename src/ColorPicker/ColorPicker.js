@@ -50,7 +50,7 @@ export default class ColorPicker extends WixComponent {
     children: node,
 
     /** Color string array to show as swatches */
-    predefinedColors: array,
+    preset: array,
   };
 
   static defaultProps = {
@@ -77,7 +77,7 @@ export default class ColorPicker extends WixComponent {
       showConverter,
       children,
       value,
-      predefinedColors,
+      preset,
       showClear,
     } = this.props;
     const { current, previous } = this.state;
@@ -101,10 +101,10 @@ export default class ColorPicker extends WixComponent {
           onChange={this.change}
           onEnter={this.confirm}
         />
-        {predefinedColors && (
+        {preset && (
           <div className={css.children}>
             <Swatches
-              colors={predefinedColors}
+              colors={preset}
               showClear={showClear}
               onClick={this.onSwatchClick}
               selected={selectedSwatch}
