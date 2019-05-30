@@ -8,7 +8,7 @@ export const colorInputPrivateDriverFactory = base => {
   const viewerStylableUtil = new StylableUnidriverUtil(viewerStyles);
   const hashStylableUtil = new StylableUnidriverUtil(hashStyles);
   const swatchesHook = '[data-hook="color-picker-swatches"]';
-  const swatchesDriver = swatchesPrivateDriverFactory(base.$(swatchesHook)); // eslint-disable-line no-restricted-properties
+  const swatchesDriver = swatchesPrivateDriverFactory(base.$(swatchesHook));
 
   const isHashDisabled = async () =>
     (await hashStylableUtil.getStyleState(
