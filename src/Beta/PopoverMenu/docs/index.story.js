@@ -19,6 +19,11 @@ import { storySettings } from '../test/storySettings';
 import allComponents from '../../../../stories/utils/allComponents';
 
 import PopoverMenu from '..';
+import IconButton from '../../../IconButton';
+import TextButton from '../../../TextButton';
+import More from '../../../new-icons/More';
+import ChevronDown from '../../../new-icons/ChevronDown';
+import Edit from '../../../new-icons/Edit';
 
 const code = config => baseCode({ components: allComponents, ...config });
 
@@ -44,15 +49,22 @@ export default {
       sourceUrl:
         'https://github.com/wix/wix-style-react/tree/master/src/PopoverMenu/',
       component: (
-        <PopoverMenu>
+        <PopoverMenu
+          appendTo="window"
+          // triggerElement={
+          //   <TextButton suffixIcon={<ChevronDown />}>Actions</TextButton>
+          // }
+          triggerElement={
+            <IconButton priority="secondary">
+              <More />
+            </IconButton>
+          }
+        >
           <PopoverMenu.MenuItem
             text="dark option"
             onClick={e => console.log(e)}
             skin="dark"
-          />
-          <PopoverMenu.MenuItem
-            text="standard option"
-            onClick={e => console.log(e)}
+            prefixIcon={<Edit />}
           />
           <PopoverMenu.MenuItem
             text="destructive option"
@@ -60,8 +72,14 @@ export default {
             skin="destructive"
           />
           <PopoverMenu.MenuItem
+            text="small option"
+            onClick={e => console.log(e)}
+            size="small"
+          />
+          <PopoverMenu.MenuItem
             text="disabled option"
             onClick={e => console.log(e)}
+            disabled
           />
         </PopoverMenu>
       ),
@@ -98,15 +116,12 @@ export default {
             code({
               compact: true,
               source:
-                '<PopoverMenuBeta>\n' +
+                '<PopoverMenuBeta triggerElement={<IconButton priority="secondary"><Icons.More /></IconButton>}>\n' +
                 '          <PopoverMenuBeta.MenuItem\n' +
                 '            text="dark option"\n' +
                 '            onClick={e => console.log(e)}\n' +
                 '            skin="dark"\n' +
-                '          />\n' +
-                '          <PopoverMenuBeta.MenuItem\n' +
-                '            text="standard option"\n' +
-                '            onClick={e => console.log(e)}\n' +
+                '            prefixIcon={<Icons.Email/>}\n' +
                 '          />\n' +
                 '          <PopoverMenuBeta.MenuItem\n' +
                 '            text="destructive option"\n' +

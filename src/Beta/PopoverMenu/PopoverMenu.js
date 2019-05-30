@@ -1,31 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import IconButton from '../../IconButton';
-import More from '../../new-icons/More';
 import { listItemActionBuilder } from '../../ListItemAction';
 import DropdownBase from '../../DropdownBase';
 
-/*
-todo:
-1. support icons - Moshe
-2. divider - Mykolas
-3. set button and icon openers to spec's design - Moshe
-4. align design to spec - Moshe
-6. testing -
-  * - options - unit test - Mykolas
-7. storybook
- */
 /** PopoverMenu */
 class PopoverMenu extends React.PureComponent {
   static displayName = 'PopoverMenu';
 
   static propTypes = {
-    dataHook: PropTypes.string,
+    /** The maximum width applied to the list */
+    maxWidth: PropTypes.number,
+
+    /** Callback to be called when the popover is shown */
+    onShow: PropTypes.func,
+
+    /** Callback to be called when the popover is hidden */
+    onHide: PropTypes.func,
+
+    /** Popover content z-index */
+    zIndex: PropTypes.number,
+
+    /** Moves popover content relative to the parent by x or y */
+    moveBy: PropTypes.shape({ x: PropTypes.number, y: PropTypes.number }),
+
+    /** Element to trigger the popover */
+    triggerElement: PropTypes.element.isRequired,
+
+    /**
+     * Menu items
+     *  * <PopoverMenu.MenuItem>
+     *  * `text` - Item text
+     *  * `onClick` - Callback to be triggered on item click
+     *  * `skin` - Item theme (dark, destructive)
+     *  * `prefixIcon` - Prefix icon
+     *  * `textSize` - Text size (small, medium)
+     *  * `disabled` - Disabled
+     *  * />
+     */
+    children: PropTypes.element.isRequired,
   };
 
   static defaultProps = {
-    dataHook: 'tempHook',
+    maxWidth: 204,
   };
 
   _onSelect = e => {
@@ -34,37 +50,48 @@ class PopoverMenu extends React.PureComponent {
 
   _buildOptions = () => {
     const { children } = this.props;
-    const options = React.Children.map(children, (item, idx) => ({
-      id: idx,
-      title: item.props.text,
-      onClick: item.props.onClick,
-      prefixIcon: item.props.prefixIcon,
-      skin: item.props.skin,
-      disabled: item.props.disabled,
-    }));
+    const options = React.Children.map(children, (item, idx) => {
+      const {
+        text,
+        onClick,
+        skin = 'dark',
+        textSize,
+        prefixIcon,
+        disabled,
+      } = item.props;
+      return {
+        id: idx,
+        title: text,
+        onClick,
+        skin,
+        size: textSize,
+        prefixIcon,
+        disabled,
+      };
+    });
+
     this.itemsOnClick = options.map(({ id, onClick }) => ({ id, onClick }));
-    return options.map(option => listItemActionBuilder({ ...option }));
+
+    return options.map(option =>
+      listItemActionBuilder({ ...option, paddingSize: 'small' }),
+    );
   };
 
   render() {
+    const { appendTo, placement, triggerElement } = this.props;
     return (
       <DropdownBase
         showArrow
         options={this._buildOptions()}
         onSelect={this._onSelect}
-        appendTo={'window'}
+        appendTo={appendTo}
+        placement={placement}
       >
         {({ open }) => {
-          return (
-            <IconButton
-              priority="secondary"
-              onClick={e => {
-                open(e);
-              }}
-            >
-              <More />
-            </IconButton>
-          );
+          return React.cloneElement(triggerElement, {
+            onClick: open,
+            dataHook: 'popovermenu-trigger',
+          });
         }}
       </DropdownBase>
     );

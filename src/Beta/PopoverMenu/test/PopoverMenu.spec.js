@@ -26,10 +26,10 @@ describe('PopoverMenu', () => {
       it('[when] given should be called on item click', async () => {
         const onClick = jest.fn();
 
-        const { driver } = render(
+        const { driver, debug } = render(
           renderPopoverMenu({
             triggerElement: (
-              <IconButton dataHook="test">
+              <IconButton>
                 <More />
               </IconButton>
             ),
@@ -43,7 +43,9 @@ describe('PopoverMenu', () => {
           }),
         );
 
-        const triggerElement = await driver.triggerElement();
+        // debug();
+
+        const triggerElement = await driver.getTriggerElement();
         const iconButtonTestkit = iconButtonDriverFactory(triggerElement);
         await iconButtonTestkit.click();
 
