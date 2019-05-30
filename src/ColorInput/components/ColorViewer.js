@@ -3,10 +3,12 @@ import React from 'react';
 import Popover from '../../Popover';
 import ColorPicker from '../../ColorPicker';
 import styles from './ColorViewer.st.css';
+import Color from 'color';
 
 export class ColorViewer extends React.Component {
   onChange = _color => {
-    this.props.onChange(_color.alpha() === 0 ? '' : _color.hex());
+    const color = Color(_color);
+    this.props.onChange(color.alpha() === 0 ? '' : color.hex());
   };
 
   render() {

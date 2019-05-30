@@ -8,6 +8,7 @@ export const colorInputPrivateDriverFactory = base => {
   const viewerStylableUtil = new StylableUnidriverUtil(viewerStyles);
   const hashStylableUtil = new StylableUnidriverUtil(hashStyles);
   const swatchesHook = '[data-hook="color-picker-swatches"]';
+  const swatchesDriver = swatchesPrivateDriverFactory(base.$(swatchesHook)); // eslint-disable-line no-restricted-properties
 
   const isHashDisabled = async () =>
     (await hashStylableUtil.getStyleState(
@@ -26,8 +27,10 @@ export const colorInputPrivateDriverFactory = base => {
     isViewerNull: async () =>
       await base.$('[data-hook="colorinput-viewer-line"]').exists(),
     getViewerSize,
-    /** Return Swatches's component testkit methods */
-    swatchesDriver: async () =>
-      swatchesPrivateDriverFactory(base.$(swatchesHook)), // eslint-disable-line no-restricted-properties
+    getSwatch: async index => swatchesDriver.getSwatch(index),
+    getSwatchCount: async () => swatchesDriver.getSwatchCount(),
+    /** Private Swatches driver function to test if swatch is transparent at given index */
+    isSwatchTransparentAt: async index =>
+      swatchesDriver.isSwatchTransparentAt(index),
   };
 };
