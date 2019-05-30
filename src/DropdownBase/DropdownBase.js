@@ -85,18 +85,6 @@ class DropdownBase extends React.PureComponent {
       PropTypes.string,
       PropTypes.number,
     ]),
-
-    /** Callback to be called when the popover is shown */
-    onShow: PropTypes.func,
-
-    /** Callback to be called when the popover is hidden */
-    onHide: PropTypes.func,
-
-    /** Popover content z-index */
-    zIndex: PropTypes.number,
-
-    /** moves popover content relative to the parent by x or y */
-    moveBy: PropTypes.shape({ x: PropTypes.number, y: PropTypes.number }),
   };
 
   static defaultProps = {
@@ -296,10 +284,6 @@ class DropdownBase extends React.PureComponent {
       options,
       minWidth,
       maxWidth,
-      onShow,
-      onHide,
-      zIndex,
-      moveBy,
     } = this.props;
 
     const { open, selectedId } = this.state;
@@ -315,10 +299,6 @@ class DropdownBase extends React.PureComponent {
         onMouseEnter={this._handlePopoverMouseEnter}
         onMouseLeave={this._handlePopoverMouseLeave}
         onClickOutside={this._handleClickOutside}
-        onShow={onShow}
-        onHide={onHide}
-        zIndex={zIndex}
-        moveBy={moveBy}
         {...style(
           'root',
           {
