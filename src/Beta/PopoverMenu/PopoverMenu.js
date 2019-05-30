@@ -71,4 +71,6 @@ class PopoverMenu extends React.PureComponent {
   }
 }
 
+PopoverMenu.MenuItem = () => ({});
+
 export default PopoverMenu;

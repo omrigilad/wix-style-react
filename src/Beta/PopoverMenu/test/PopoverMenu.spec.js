@@ -6,6 +6,10 @@ import {
 
 import PopoverMenu from '../PopoverMenu';
 import { PopoverMenuPrivateDriverFactory } from './PopoverMenu.private.uni.driver';
+import IconButton from '../../../IconButton';
+import More from '../../../new-icons/More';
+
+import { iconButtonDriverFactory } from '../../../IconButton/IconButton.uni.driver';
 
 describe('PopoverMenu', () => {
   const render = createRendererWithUniDriver(PopoverMenuPrivateDriverFactory);
@@ -24,6 +28,11 @@ describe('PopoverMenu', () => {
 
         const { driver } = render(
           renderPopoverMenu({
+            triggerElement: (
+              <IconButton dataHook="test">
+                <More />
+              </IconButton>
+            ),
             children: (
               <PopoverMenu.MenuItem
                 text="dark option"
@@ -33,6 +42,12 @@ describe('PopoverMenu', () => {
             ),
           }),
         );
+
+        const triggerElement = await driver.triggerElement();
+        const iconButtonTestkit = iconButtonDriverFactory(triggerElement);
+        await iconButtonTestkit.click();
+
+        expect(await driver.isMenuOpen()).toBe(true);
 
         await driver.clickAtChild(0);
         expect(onClick).toHaveBeenCalled();
