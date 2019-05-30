@@ -19,10 +19,12 @@ const inputAreaDriverFactory = ({ element }) => {
     trigger: (trigger, event) =>
       ReactTestUtils.Simulate[trigger](textArea, event),
     focus: () => textArea.focus(),
-    enterText: text =>
+    enterText: text => {
+      textArea.value = text;
       ReactTestUtils.Simulate.change(textArea, {
         target: { name, value: text },
-      }),
+      });
+    },
     getValue: () => textArea.value,
     getName: () => name,
     getPlaceholder: () => textArea.placeholder,
